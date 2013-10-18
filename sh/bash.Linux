@@ -1,6 +1,6 @@
 #!/bin/sh
 # Setup my BASH environment
-# Modify Date: 2012/04/04
+# Modify Date: 2013/10/18
 #
 
 INSTALL () {
@@ -11,6 +11,9 @@ INSTALL () {
   TOPRC
 #  INPUTRC $HOME/.inputrc
 
+# my Application Environemt
+  ../app/git_script.sh
+  ../app/vim_script.sh
 }
 
 PROFILE() {
@@ -317,5 +320,6 @@ INPUTRC() {
 # Configure the system bell.  Options are none, visible, and audible.
 set bell-style none
 }
+
 # Main Program
 INSTALL
