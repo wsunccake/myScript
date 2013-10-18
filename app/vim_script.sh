@@ -1,9 +1,12 @@
 #!/bin/sh
+#
+### Modified date: 2013/10/1
+#
 
 cat << EOF > $HOME/.vimrc
 " my vimrc (configuration file of vim)
 "
-" Modified date: 2012/04/13
+" Modified date: 2013/10/18
 "
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -178,7 +181,7 @@ set incsearch  " incremental searching
 set hlsearch   " high light searching  
 
 " enable cursor line -> set [no]cursorline, set [no]cul
-set cursorline
+set nocursorline
 " hi CursorLine term=underline cterm=none ctermbg=242
 " enable cursor column-> set [no]cursorcolumn, set [no]cuc
 set cursorcolumn

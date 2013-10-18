@@ -1,4 +1,7 @@
 #!/bin/sh
+#
+### modified date: 2013/10/18
+#
 
 GITCONFIG() {
 cat << EOF > $HOME/.gitconfig
