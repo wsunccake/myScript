@@ -1,0 +1,140 @@
+#!/bin/csh
+# Setup my TCSH environment
+# Modify Date: 11/08/2010
+#
+
+ 
+cat << EOF > $HOME/.login
+# My C Shell Setup
+
+# Setup Prompt
+if ( \$uid != "0" ) then
+  set prompt="%{\033[1;36m%}%n%{\033[1;37m%}@%{\033[1;35m%}%m%{\033[1;37m%}:%{\033[1;34m%}%~ %{\033[1;37m%}>%{\033[0m%} "
+#  set prompt="%{\033[1;36m%}%n@%m:%~ >%{\033[0m%} "
+else
+  set prompt="%{\e[1;31m%}%n%{\e[1;37m%}@%{\e[1;35m%}%m%{\e[1;37m%}:%{\e[1;34m%}%~ %{\e[1;37m%}#%{\e[0m%} "
+#  set prompt="%{\e[1;31m%}%n@%m:%~ #%{\e[0m%} "
+endif
+# set prompt2
+# set prompt3
+
+# Setup LANG
+if (! \$?DISPLAY) then
+  setenv LANG POSIX
+  setenv LC_CTYPE zh_TW.UTF-8
+  setenv LC_TIME POSIX
+#  setenv LC_MESSAGES zh_TW.UTF-8 # Display Tranditional Chinese
+endif
+
+# Setup cshrc/tcshrc file
+if ( `basename \$SHELL` == csh ) then
+  if -f \$HOME/.cshrc \$HOME/.cshrc
+else if ( `basename \$SHELL` == csh ) then
+  if -f \$HOME/.tcshrc source \$HOME/.tcshrc
+endif
+EOF
+#echo "login"
+
+
+cat << EOF > $HOME/.tcshrc
+# Setup PATH
+foreach DIR ( \$HOME/bin \$HOME/sbin )
+  if ( -d "\$DIR" ) then
+    set path=( \$DIR \$path )
+  endif
+end
+
+# Setup my profile.d dir
+if ( -d \$HOME/.profile.d ) then
+  set SINGAL=\`ls \$HOME/.profile.d/*.csh >& /dev/null && echo "0" || echo "1"\`
+  if ( \$SINGAL == "0" ) then
+    foreach FILE ( \`find \$HOME/.profile.d/*.csh\` )
+      if ( -x \$FILE ) then
+        source \$FILE
+      endif
+    end
+  endif
+endif
+
+# Setup alias file
+if ( -f \$HOME/.aliases ) then
+  source \$HOME/.aliases
+endif
+
+# Setup inputrc file
+#if ( -f \$HOME/.inputrc ) then
+#  setenv INPUTRC \$HOME/.inputrc
+#endif
+
+# Setup dircolors file
+#if ( -f ~/.dircolors ) then
+#  eval \`dircolors -c \$HOME/.dircolors\`
+#else
+#  dircolors -p > \$HOME/.dircolors
+#endif
+
+# Setup ls color
+if ( `uname -s` == "Linux" ) then
+  setenv LS_OPTIONS '-b -T 0 --color=auto'
+else if ( `uname -s` == "FreeBSD" ) then
+  setenv LS_OPTIONS '-G'
+endif
+
+# Setup EDITOR
+setenv EDITOR vi
+
+# Configure the system bell.
+set nobeep
+
+# Setup HISTORY
+set histfile=\$HOME/.history
+set savehistory=1000
+set history=100
+
+# Setup unlimited stack size
+unlimit stacksize
+
+# Setup Date: /usr/share/zoneinfo
+setenv TZ Asia/Taipei
+
+# Setup less for man page
+setenv LESS '-M -R'
+EOF
+#echo "tcshrc"
+
+
+cat << EOF > $HOME/.aliases
+# Setup Aliases file
+#alias ls 'ls \$LS_OPTIONS'
+alias ls 'ls --color'
+alias grep 'grep --color'
+alias egrep 'egrep --color'
+alias du 'du -hs'
+alias ff 'find . -name'
+alias vi "vim"
+alias po "ps o user,pid,%cpu,%mem,cmd k -%cpu"
+alias envzh 'env LC_MESSAGES=zh_TW.UTF-8'
+alias sudo 'sudo -k'
+alias ssh 'ssh -o StrictHostKeyChecking=no'
+alias viu+x 'vi \!:1; chmod u+x \!:1'
+alias search_library '(echo "foreach LIBS (\`ls \!:2\`)"; echo "echo "\\\$"LIBS"; echo "nm "\\\$"LIBS | grep \!:1"; echo "echo"; echo "end") | csh'
+EOF
+#echo "alias"
+
+cat << EOF > $HOME/.toprc
+RCfile for "top with windows"		# shameless braggin'
+Id:a, Mode_altscr=0, Mode_irixps=1, Delay_time=3.000, Curwin=0
+Def	fieldscur=AEHIOQTWKNMbcdfgjplrsuvyzX
+	winflags=32056, sortindx=10, maxtasks=0
+	summclr=3, msgsclr=4, headclr=2, taskclr=6
+Job	fieldscur=ABcefgjlrstuvyzMKNHIWOPQDX
+	winflags=62777, sortindx=0, maxtasks=0
+	summclr=6, msgsclr=6, headclr=7, taskclr=6
+Mem	fieldscur=ANOPQRSTUVbcdefgjlmyzWHIKX
+	winflags=62777, sortindx=13, maxtasks=0
+	summclr=5, msgsclr=5, headclr=4, taskclr=5
+Usr	fieldscur=ABDECGfhijlopqrstuvyzMKNWX
+	winflags=62777, sortindx=4, maxtasks=0
+	summclr=3, msgsclr=3, headclr=2, taskclr=3
+EOF
+#echo "toprc"

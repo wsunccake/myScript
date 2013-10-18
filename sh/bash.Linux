@@ -1,0 +1,321 @@
+#!/bin/sh
+# Setup my BASH environment
+# Modify Date: 2012/04/04
+#
+
+INSTALL () {
+# Shell Environemt
+  PROFILE $HOME/.bash_profile
+  BASHRC  $HOME/.bashrc
+  ALIAS   $HOME/.alias
+  TOPRC
+#  INPUTRC $HOME/.inputrc
+
+}
+
+PROFILE() {
+inFile=$1
+cat << EOF > $inFile
+# My Bourne Again Shell Setup
+
+# Setup LANG
+if [ -z \$DISPLAY ]; then
+  export LANG=POSIX
+  export LC_CTYPE=zh_TW.UTF-8
+  export LC_TIME=POSIX
+#  export LC_MESSAGES=zh_TW.UTF-8 # Display Tranditional Chinese
+
+# Setup Keyborad
+  if [ \`uname -s\` == "Linux" ]; then
+    TTY=\`tty|grep tty >& /dev/null && echo "0"||echo "1"\`
+    if [ \$TTY == "0" ]; then
+      setleds +num
+      setleds -caps
+      setleds -scroll
+    fi
+  fi
+fi
+
+# Setup bashrc file
+if [ \`basename \$SHELL\` == bash ]; then
+  if [ -f \$HOME/.bashrc ]; then
+    source \$HOME/.bashrc
+  fi
+fi
+#if [ \`basename \$SHELL\` == sh ]; then
+#  if [ -f \$HOME/.shrc ]; then
+#    source \$HOME/.shrc
+#  fi
+#elif [ \`basename \$SHELL\` == bash ]; then
+#  if [ -f \$HOME/.bashrc ]; then
+#    source \$HOME/.bashrc
+#  fi
+#fi
+EOF
+}
+
+BASHRC() {
+inFile=$1
+cat << EOF > $inFile
+# Setup Prompt
+
+getCOLOR() {
+#  BLACK=0 RED=1 GREEN=2 YELLOW=3
+#  BLUE=4 MAGENTA=5 CYAN=6 GRAY=7
+  if [ \$1 == 'BLACK' ]
+  then 
+    echo 0
+    return 0
+  elif [ \$1 == 'RED' ]
+  then 
+    echo 1
+    return 0
+  elif [ \$1 == 'GREEN' ]
+  then 
+    echo 2
+    return 0
+  elif [ \$1 == 'YELLOW' ]
+  then 
+    echo 3
+    return 0
+  elif [ \$1 == 'BLUE' ]
+  then 
+    echo 4
+    return 0
+  elif [ \$1 == 'MAGENTA' ]
+  then 
+    echo 5
+    return 0
+  elif [ \$1 == 'CYAN' ]
+  then 
+    echo 6
+    return 0
+  elif [ \$1 == 'GRAY' ]
+  then 
+    echo 7
+    return 0
+  elif [ \$1 == 'HELP' ]
+  then 
+    echo "BLACK, RED, GREEN, YELLOW, BLUE, MAGENTA, CYAM, GRAY"
+    return 1
+  else 
+    echo 0
+    return 0
+  fi
+}
+
+getEFFECT() {
+  if [ \$1 == 'NORMAL' ]
+  then
+    echo 0
+    return 0
+  elif [ \$1 == 'BOLD' ] || [ \$1 == 'BRIGHT' ]
+  then
+    echo 1
+    return 0
+  elif [ \$1 == 'FAINT' ]
+  then
+    echo 2
+    return 0
+  elif [ \$1 == 'ITALIC' ]
+  then
+    echo 3
+    return 0
+  elif [ \$1 == 'UNDERLINE' ]
+  then
+    echo 4
+    return 0
+  elif [ \$1 == 'BLINK' ]
+  then
+    echo 5
+    return 0
+#  elif [ \$1 == 'BLINK' ]
+#  then
+#    echo 6
+#    return 0
+  elif [ \$1 == 'IMAGE' ]
+  then
+    echo 7
+    return 0
+  elif [ \$1 == 'CONCEAL' ]
+  then
+    echo 8
+    return 0
+  elif [ \$1 == 'HELP' ]
+  then
+    echo "NORMAL BOLD BRIGHT FAINT ITALIC UNDERLINE BLINK IMAGE CONCEAL"
+    return 1
+  else
+    echo 0
+    return 0
+  fi
+}
+
+if [ \$UID != "0" ]; then
+  Normal_Yellow="\\[\\e[\`getEFFECT BRIGHT\`;3\`getCOLOR YELLOW\`m\\]"
+  Bright_Gray="\\[\\e[\`getEFFECT BRIGHT\`;3\`getCOLOR GRAY\`m\\]"
+  Bright_Magenta="\\[\\e[\`getEFFECT BRIGHT\`;3\`getCOLOR MAGENTA\`m\\]"
+  Bright_Blue="\[\\e[\`getEFFECT BRIGHT\`;3\`getCOLOR BLUE\`m\\]"
+  Color_End="\\[\\e[m\\]"
+  PS1="\${Normal_Yellow}\u\${Color_End}\${Bright_Gray}@\${Color_End}\${Bright_Magenta}\h\${Color_End}\${Bright_Gray}:\${Color_End}\${Bright_Blue}\w\${Color_End} \${Bright_Gray}\\\$\${Color_End}\${Color_End} "
+#  PS1='\[\033[1;33m\]\u\[\033[1;37m\]@\[\033[1;35m\]\h\[\033[1;37m\]:\[\033[1;34m\]\w \[\033[1;37m\]$\[\033[m\] '
+#  PS1='\[\033[1;33m\]\u@\h:\w $\[\033[m\] '
+else
+  Bright_Gray="\[\e[`getEFFECT BRIGHT`;3`getCOLOR GRAY`m\]"
+  Bright_Red="\[\e[`getEFFECT BRIGHT`;3`getCOLOR RED`m\]"
+  Color_End="\[\e[m\]"
+  PS1='\${Bright_Red}\u\${Color_End}\${Bright_Gray}@\${Color_End}\${Bright_Red}\h\${Color_End}\${Bright_Gray}:\${Color_End}\${Bright_Red}\w\${Color_End} \${Bright_Gray}#\${Color_End}\${Color_End} '
+#  PS1='\[\e[1;31m\]\u\[\e[1;37m\]@\[\e[1;35m\]\h\[\e[1;37m\]:\[\e[1;34m\]\w \[\e[1;37m\]#\[\e[m\] '
+#  PS1='\[\e[1;31m\]\h:\w #\[\e[m\] '
+fi
+# PS2=
+# PS3=
+# PS4=
+
+
+# Setup PATH
+for DIR in \$HOME/bin \$HOME/sbin; do
+  test -d \$DIR && export PATH=\$DIR:\$PATH
+done
+
+
+# mySOURCE function
+mySOURCE() {
+  local FILE=\$1
+  SOURCE_STATE=\`source \$FILE && echo "0" || echo "1"\`
+  if [ \$SOURCE_STATE == "0" ]; then
+    source \$FILE
+    printf "\e[1;37m%s\e[m load \e[1;36mDone\e[m\n" \$FILE
+  else
+    printf "\e[1;37m%s\e[m load \e[1;34mFail\e[m\n" \$FILE
+  fi
+}
+
+
+# Setup my profile.d dir
+if [ -d \$HOME/.profile.d ]; then
+#  SINGAL=\`ls \$HOME/.profile.d/*.sh &> /dev/null && echo "0" || echo "1"\`
+#  if [ \$SINGAL == "0" ]; then
+    for FILE in \`find \$HOME/.profile.d -name "*.sh"\`; do
+      if [ -x \$FILE ]; then
+#        mySOURCE \$FILE >> log.date
+        source \$FILE
+      fi
+    done
+#  fi
+fi
+
+# Setup alias file
+if [ -f \$HOME/.alias ]; then
+#  mySOURCE \$HOME/.alias
+  source \$HOME/.alias
+fi
+
+## Setup inputrc file
+#if [ -f \$HOME/.inputrc ]; then
+#  INPUTRC=\$HOME/.inputrc
+#fi
+
+
+# Setup dircolors file
+#if [ -f ~/.dircolors ]; then
+#  eval \`dircolors -b \$HOME/.dircolors\`
+#else
+#  dircolors -p > \$HOME/.dircolors
+#fi
+
+# Setup ls color
+if [ \`uname -s\` == "Linux" ]; then
+  export LS_OPTIONS="-b -T 0 --color=auto"
+elif [ \`uname -s\` == "FreeBSD" ]; then
+  export LS_OPTIONS="-G"
+fi
+  
+
+# Setup EDITOR
+export EDITOR=vi
+#set -o vi
+
+# Setup HISTORY
+export HISTFILE=\$HOME/.history
+export HISTFILESIZE=1000
+export HISTSIZE=1000
+export HISTTIMEFORMAT='%F %T '
+#export HISTCONTROL=ignoredups
+#export HISTCONTROL=ignoredspace
+#export HISTCONTROL=ignoreboth
+#export HISTCONTROL=erasedups
+export HISTCONTROL=ignoredups:ignoredspace
+export HISTIGNORE="ls:pwd"
+
+# Setup unlimited stack size
+ulimit -s unlimited
+
+# Setup Date: /usr/share/zoneinfo
+export TZ=Asia/Taipei
+
+# Setup less for man page
+export LESS='-M -R'
+export LESS_TERMCAP_mb=$'\E[5;34m'
+export LESS_TERMCAP_md=$'\E[1;31m'
+export LESS_TERMCAP_me=$'\E[m'
+export LESS_TERMCAP_se=$'\E[m'
+export LESS_TERMCAP_so=$'\E[1;33m'
+export LESS_TERMCAP_ue=$'\E[m'
+export LESS_TERMCAP_us=$'\E[4;32m'
+
+complete -W "\$(echo \$(grep '^ssh ' \$HISTFILE | sort -u | sed 's/^ssh //'))" ssh
+complete -W "\$(echo \$(grep '^sftp ' \$HISTFILE | sort -u | sed 's/^sftp //'))" ssh
+
+EOF
+}
+
+ALIAS() {
+inFile=$1
+cat << EOF > $inFile
+# Setup alias file
+#alias ls='ls \$LS_OPTIONS'
+alias ls='ls --color'
+alias grep='grep --color'
+alias egrep='egrep --color'
+alias du="du -hs"
+alias ff="find . -name"
+alias vi="vim"
+alias po="ps o user,pid,%cpu,%mem,cmd k -%cpu"
+alias envzh='env LC_MESSAGES=zh_TW.UTF-8'
+alias sudu='sudo -k'
+alias rhash='hash -r'
+alias httpget="wget -r -np -d"
+alias tree-find="find ./ -type d | sed -e 's/[^-][^\/]*\//--/g;s/--/ |-/'"
+alias tree-ls="ls -R | grep \":$\" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/   /' -e 's/-/|/'"
+#alias ssh='ssh -o StrictHostKeyChecking=no"
+viu+x () { vi \$1; chmod u+x \$1; }
+search_library () { for LIBS in \$(ls \$2); do echo \$LIBS; nm \$LIBS | grep \$1; echo; done; }
+EOF
+}
+
+TOPRC() {
+cat << EOF > $HOME/.toprc
+RCfile for "top with windows"		# shameless braggin'
+Id:a, Mode_altscr=0, Mode_irixps=1, Delay_time=3.000, Curwin=0
+Def	fieldscur=AEHIOQTWKNMbcdfgjplrsuvyzX
+	winflags=32056, sortindx=10, maxtasks=0
+	summclr=3, msgsclr=4, headclr=2, taskclr=6
+Job	fieldscur=ABcefgjlrstuvyzMKNHIWOPQDX
+	winflags=62777, sortindx=0, maxtasks=0
+	summclr=6, msgsclr=6, headclr=7, taskclr=6
+Mem	fieldscur=ANOPQRSTUVbcdefgjlmyzWHIKX
+	winflags=62777, sortindx=13, maxtasks=0
+	summclr=5, msgsclr=5, headclr=4, taskclr=5
+Usr	fieldscur=ABDECGfhijlopqrstuvyzMKNWX
+	winflags=62777, sortindx=4, maxtasks=0
+	summclr=3, msgsclr=3, headclr=2, taskclr=3
+EOF
+}
+
+INPUTRC() {
+# Configure the system bell.  Options are none, visible, and audible.
+set bell-style none
+}
+# Main Program
+INSTALL
