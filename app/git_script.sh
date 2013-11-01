@@ -11,6 +11,11 @@ cat << EOF > $HOME/.gitconfig
         editor = vim
 [merge]
         tool = vimdiff
+[alias]
+        co = checkout
+        ci = commit
+        st = status
+        br = branch
 EOF
 }
 

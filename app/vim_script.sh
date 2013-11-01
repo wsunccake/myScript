@@ -25,29 +25,29 @@ cat << EOF > $HOME/.vimrc
 " Define MySys
 function! MySys()
   if has("win16") || has("win32") || has("win64")
-    echo "OS: Windows"
+"    echo "OS: Windows"
     let g:vimrc_iswindows = 1
     return "win"
   elseif has("dos16") || has("dos32")
-    echo "OS: DOS"
+"    echo "OS: DOS"
     return "dos"
   elseif has("unix")
-    echo "OS: UNIX"
+"    echo "OS: UNIX"
     return "unix"
   elseif has("mac") || has("macunix")
-    echo "OS: OSX"
+"    echo "OS: OSX"
     return "mac"
   elseif has("win32")
-    echo "OS: Cygwin"
+"    echo "OS: Cygwin"
     return "cygwin"
   elseif has("os2")
-    echo "OS: OS2"
+"    echo "OS: OS2"
     return "os2"
   elseif has("vms")
-    echo "OS: VMS"
+"    echo "OS: VMS"
     return "vms"
   else
-    echo "Unknown OS"
+"    echo "Unknown OS"
     return "unknown"
   endif
 endfunction
@@ -64,7 +64,7 @@ function RandomColorscheme()
   else
     let colorScheme = "pablo"
   endif
-  echo "set color to " . colorScheme
+"  echo "set color to " . colorScheme
   execute "colorscheme " . colorScheme
 endfunction
 
