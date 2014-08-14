@@ -1,6 +1,6 @@
 #!/bin/sh
 # Setup my BASH environment
-# Modify Date: 2013/10/18
+# Modify Date: 2014/08/12
 #
 
 INSTALL () {
@@ -14,6 +14,8 @@ INSTALL () {
 # my Application Environemt
   ../app/git_script.sh
   ../app/vim_script.sh
+  ../app/screen_script.sh
+  ../app/ssh_script.sh
 }
 
 PROFILE() {

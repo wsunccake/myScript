@@ -1,10 +1,10 @@
 #!/bin/sh
 #
-### modified date: 2013/10/18
+### modified date: 2014/08/12
 #
 
 GITCONFIG() {
-cat << EOF > $HOME/.gitconfig
+cat << EOF >> $HOME/.gitconfig
 [color]
         ui = true
 [core]
@@ -12,10 +12,15 @@ cat << EOF > $HOME/.gitconfig
 [merge]
         tool = vimdiff
 [alias]
+	s = status -s -b -uno
+	b = branch
+	ba = branch -avv
+
+	ci = commit -v -uno
         co = checkout
-        ci = commit
-        st = status
-        br = branch
+
+	l = log -C --stat --decorate
+	t = log --graph --oneline --boundary --decorate --all --date-order
 EOF
 }
 
