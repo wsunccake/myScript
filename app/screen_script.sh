@@ -50,6 +50,7 @@ bindkey ^[] paste .    # paste region from buffter
 bindkey ^[r remove     # remove region
 bindkey ^[k focus up   # previous region
 bindkey ^[j focus down # next region
+bindkey ^[\\" windowlist # select window list
 bindkey ^[= resize +1  # increase region size
 bindkey ^[- resize -1  # decrease region size
 
