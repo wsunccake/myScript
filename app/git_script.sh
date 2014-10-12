@@ -19,3 +19,16 @@ cat << EOF > $HOME/.gitconfig
 EOF
 }
 
+
+# alias for sh/bash
+cat << EOF >> $HOME/.alias
+alias git-tree="git log --graph --oneline --all"
+alias git-showadd="git show --pretty=fuller"
+EOF
+
+# alias for csh/tcsh
+cat << EOF >> $HOME/.aliases
+alias git-tree "git log --graph --oneline --all"
+alias git-showadd "git show --pretty=fuller"
+EOF
+

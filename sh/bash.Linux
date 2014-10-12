@@ -294,6 +294,8 @@ alias tree-ls="ls -R | grep \":$\" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e
 #alias ssh='ssh -o StrictHostKeyChecking=no"
 viu+x () { vi \$1; chmod u+x \$1; }
 search_library () { for LIBS in \$(ls \$2); do echo \$LIBS; nm \$LIBS | grep \$1; echo; done; }
+find-grep() { find -maxdepth \`expr \$3 + 5\` -name "\$2*" -exec grep -P -inH --color "\$1" {} \\;; }
+
 EOF
 }
 
