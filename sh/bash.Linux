@@ -16,6 +16,7 @@ INSTALL () {
   ../app/vim_script.sh
   ../app/screen_script.sh
   ../app/ssh_script.sh
+  ../app/tmux_script.sh
 }
 
 PROFILE() {

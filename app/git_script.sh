@@ -1,10 +1,16 @@
 #!/bin/sh
 #
-### modified date: 2014/08/12
+### modified date: 2014/10/17
 #
 
+INSTALL () {
+# Application Configuration
+  GITCONFIG $HOME/.gitconfig
+}
+
 GITCONFIG() {
-cat << EOF >> $HOME/.gitconfig
+inFile=$1
+cat << EOF >>  $inFile
 [color]
         ui = true
 [core]
@@ -22,8 +28,6 @@ cat << EOF >> $HOME/.gitconfig
 	l = log -C --stat --decorate
 	t = log --graph --oneline --boundary --decorate --all --date-order
 EOF
-}
-
 
 # alias for sh/bash
 cat << EOF >> $HOME/.alias
@@ -36,4 +40,8 @@ cat << EOF >> $HOME/.aliases
 alias git-tree "git log --graph --oneline --all"
 alias git-showadd "git show --pretty=fuller"
 EOF
+}
+
+# Main Program
+INSTALL
 
