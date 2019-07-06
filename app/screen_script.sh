@@ -36,6 +36,8 @@ hardstatus alwayslastline "%{= WK} %-Lw%{= KY}%n%f %t%{-}%+Lw %{= WM} %=| %0c:%s
 # Set default screen
 #screen -t bash 0 /bin/bash
 #screen -t tcsh 1 /bin/tcsh
+#chdir $HOME/project
+#source $HOME/proecjt/project.sh
 #screen -t ipython 2 /usr/bin/ipython
 
 
