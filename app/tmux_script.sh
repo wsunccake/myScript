@@ -1,6 +1,6 @@
 #!/bin/sh
 # Setup my tmux environment
-# Modify Date: 2014/10/17
+# Modify Date: 2022/06/12
 #
 
 INSTALL () {
@@ -32,6 +32,10 @@ set -g status-utf8 on
 setw -g window-status-format '#F#I #W'
 setw -g window-status-current-format '#[fg=yellow,bold]#[bg=black]#F#I #W'
 
+# Sound bell
+set -g bell-action none
+set -g visual-bell off
+
 # Define bindkey
 bind -n M-s split-window -v      # split horizontal pane
 bind -n M-v split-window -h      # split vertical pane
@@ -52,8 +56,8 @@ bind -n M-> resize-pane -R 1     # resize right pane
 bind -n M-w choose-window        # select window
 bind -n M-n new-window           # create window
 bind -n M-a command-prompt "renamew '%%'" # setup screen title
-bind -n M-L next                 # next window
-bind -n M-H prev                 # prev window
+bind -n M-L next-window          # next window
+bind -n M-H previous-window      # prev window
 #bind -n M- rotate-window -U      # rotate window  forward
 #bind -n M- rotate-window -D      # rotate window downward
 
